@@ -22,7 +22,9 @@
   "homepage": "https://github.com/njkremer/boilerplate-todo-nodejs#readme",
   "dependencies": {
     "dotenv": "^10.0.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "knex": "^0.95.9",
+    "sqlite3": "^4.2.0"
   },
   "devDependencies": {
     "jest": "^27.0.6",
