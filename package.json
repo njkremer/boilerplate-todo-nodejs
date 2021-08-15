@@ -1,0 +1,33 @@
+{
+  "name": "boilerplate-todo-nodejs",
+  "version": "1.0.0",
+  "description": "A basic TODO list back and written in nodejs / express",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/serverstart.js",
+    "dev": "nodemon src/serverstart.js",
+    "test:ci": "jest --watchAll=false --reporters=jest-junit",
+    "test": "jest --watchAll=false --verbose",
+    "debugtest": "node --inspect-brk node_modules/.bin/jest --runInBand"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://njkremer@github.com/njkremer/boilerplate-todo-nodejs.git"
+  },
+  "author": "Nick Kremer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/njkremer/boilerplate-todo-nodejs/issues"
+  },
+  "homepage": "https://github.com/njkremer/boilerplate-todo-nodejs#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "jest": "^27.0.6",
+    "jest-junit": "^12.2.0",
+    "node-mocks-http": "^1.10.1",
+    "nodemon": "^2.0.12"
+  }
+}
