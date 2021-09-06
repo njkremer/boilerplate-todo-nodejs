@@ -18,9 +18,27 @@ exports.register = async function (firstName, lastName, email, password) {
     password: encryptedPassword,
   });
 
+  user.token = createJwt(user.id, email);
+
+  return user;
+}
+
+exports.login = async function (email, password) {
+
+  const user = await exports.findUserByEmail(email);
+  if (user && await bcrypt.compare(password, user.password)) {
+    user.token = createJwt(user.id, email);
+
+    delete user.password;
+
+    return user;
+  }
+}
+
+const createJwt = (userId, email) => {
   const token = jwt.sign(
     {
-      user_id: user.id,
+      user_id: userId,
       email
     },
     JWT_TOKEN_KEY,
@@ -29,12 +47,5 @@ exports.register = async function (firstName, lastName, email, password) {
     }
   );
 
-  user.token = token;
-
-  return user;
-}
-
-exports.login = async function () {
-  const user = await usersRepository.login();
-  return user;
+  return token;
 }
