@@ -10,16 +10,8 @@ const db = knex({
         flags: ['OPEN_URI', 'OPEN_SHAREDCACHE']
     },
     seachPath: 'public',
-    useNullAsDefault: true,
-    // pool: {
-    //     afterCreate:(conn, done) => {
-    //         conn.open();
-    //     }
-    // }
+    useNullAsDefault: true
 });
-
-db('sqlite_master').where('type', 'table').then((rows) => { console.log(rows); });
-db.raw(`SELECT name FROM sqlite_master WHERE type='table'`).then((rows) => { console.log(rows); });
 
 db.close = function() {
     const pool = Knex.client.pool;
