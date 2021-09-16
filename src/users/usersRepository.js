@@ -1,5 +1,10 @@
 const db = require('../database');
 
+exports.findUserById = async function(id) {
+  const users = await db('users').where({ id });
+  return users[0];
+}
+
 exports.findUserByEmail = async function(email) {
   const users = await db('users').where({ email });
   return users[0];

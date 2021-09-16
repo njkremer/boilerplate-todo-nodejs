@@ -1,5 +1,11 @@
 const listService = require('./list-service');
 
+exports.getAllLists = async function (req, res) {
+    const userId = req.user.user_id;
+
+    res.status(200).json({data: `get list for ${userId}`})
+}
+
 exports.getList = async function(req, res) {
     try {
         const listId = req.listId || 1;

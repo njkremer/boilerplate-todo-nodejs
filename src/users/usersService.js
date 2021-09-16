@@ -4,8 +4,20 @@ const jwt = require('jsonwebtoken');
 const { JWT_TOKEN_KEY } = require('../config');
 const usersRepository = require('./usersRepository');
 
+exports.findUserById = async function (id) {
+  const user = await usersRepository.findUserById(id);
+
+  delete user.password;
+
+  return user;
+}
+
 exports.findUserByEmail = async function (email) {
-  return await usersRepository.findUserByEmail(email);
+  const user = await usersRepository.findUserById(email);
+
+  delete user.password;
+
+  return user;
 }
 
 exports.register = async function (firstName, lastName, email, password) {

@@ -36,7 +36,7 @@ exports.login = async function (req, res) {
       res.status(200).json({ data: user });
     }
     else {
-      res.status(400).json({ message: 'Login Failed' });
+      res.status(401).json({ message: 'Login Failed' });
     }
 
   }

@@ -1,9 +1,10 @@
 const express = require('express');
+const auth = require('../middleware/auth');
+const listController = require('./list-controller');
 
 const router = express.Router();
 
-const listController = require('./list-controller');
-
-router.get('/get-list', listController.getList);
+router.get('/all', auth, listController.getAllLists);
+router.get('/get-list', auth, listController.getList);
 
 module.exports = router;
