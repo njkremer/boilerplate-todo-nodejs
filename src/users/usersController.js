@@ -19,6 +19,7 @@ exports.register = async function (req, res) {
     res.status(201).json({ data: registerResult });
   }
   catch (e) {
+    console.log(e);
     return res.status(500).json({ message: 'An error occured' });
   }
 }
@@ -41,6 +42,7 @@ exports.login = async function (req, res) {
 
   }
   catch (e) {
+    console.log(e);
     return res.status(500).json({ message: 'An error occured' });
   }
 }

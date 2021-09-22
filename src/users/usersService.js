@@ -12,10 +12,12 @@ exports.findUserById = async function (id) {
   return user;
 }
 
-exports.findUserByEmail = async function (email) {
-  const user = await usersRepository.findUserById(email);
+exports.findUserByEmail = async function (email, cleanPassword = true) {
+  const user = await usersRepository.findUserByEmail(email);
 
-  delete user.password;
+  if (user && cleanPassword) {
+    delete user.password;
+  }
 
   return user;
 }
@@ -37,7 +39,7 @@ exports.register = async function (firstName, lastName, email, password) {
 
 exports.login = async function (email, password) {
 
-  const user = await exports.findUserByEmail(email);
+  const user = await exports.findUserByEmail(email, false);
   if (user && await bcrypt.compare(password, user.password)) {
     user.token = createJwt(user.id, email);
 
