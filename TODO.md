@@ -1,2 +1,2 @@
-* Add in an "API" key via a custom header
 * Add in CRUD methods for lists
+* Add in security middleware to ensure the user only get access to their list
