@@ -1,4 +1,4 @@
-const listService = require('./list-service');
+const listService = require('./listService');
 
 exports.getAllLists = async function (req, res) {
     const userId = req.user.user_id;

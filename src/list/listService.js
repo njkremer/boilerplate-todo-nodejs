@@ -1,4 +1,4 @@
-const listRepository = require('./list-repository');
+const listRepository = require('./listRepository');
 
 exports.getLists = async function() {
     const lists = await listRepository.getAllLists();

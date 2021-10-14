@@ -1,7 +1,7 @@
 const express = require('express');
 const auth = require('../middleware/auth');
 const apiKey = require ('../middleware/apiKey')
-const listController = require('./list-controller');
+const listController = require('./listController');
 
 const router = express.Router();
 
