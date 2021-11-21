@@ -1,6 +1,6 @@
 const express = require('express');
 
-const listRoutes = require('./list/list-routes');
+const listRoutes = require('./list/listRoutes');
 const usersRoutes = require('./users/usersRoutes');
 
 const app = express();

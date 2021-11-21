@@ -6,6 +6,8 @@ const listController = require('./listController');
 const router = express.Router();
 
 router.get('/all', apiKey, auth, listController.getAllLists);
-router.get('/get-list', apiKey, auth, listController.getList);
+router.post('/create', apiKey, auth, listController.createList);
+router.post('/delete', apiKey, auth, listController.deleteList);
+router.get('/:listId', apiKey, auth, listController.getList);
 
 module.exports = router;
