@@ -7,7 +7,7 @@ const verifyToken = async (req, res, next) => {
 
   const authHeader = req.headers.authorization;
   const splitAuth = authHeader?.split(' ');
-  const hasToken = splitAuth.length === 2 && splitAuth[0] == "Bearer";
+  const hasToken = splitAuth?.length === 2 && splitAuth[0] == "Bearer";
 
   if (hasToken === false) {
     return res.status(403).send("Authorization is required");
