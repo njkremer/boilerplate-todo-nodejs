@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node src/serverstart.js",
     "dev": "nodemon src/serverstart.js",
-    "test:ci": "jest --watchAll=false --reporters=jest-junit",
-    "test": "jest --watchAll=false --verbose",
+    "test:ci": "jest --watchAll=false --reporters=jest-junit --passWithNoTests",
+    "test": "jest --watchAll=false --verbose --passWithNoTests",
     "debugtest": "node --inspect-brk node_modules/.bin/jest --runInBand"
   },
   "repository": {
