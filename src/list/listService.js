@@ -5,7 +5,16 @@ exports.getAllLists = async function(userId) {
     return lists;
 }
 
-exports.getList = async function(listId) {
-    const list = (await listRepository.getList(listId))[0];
+exports.getList = async function(listId, userId) {
+    const list = await listRepository.getList(listId, userId);
+    return list;
+}
+
+exports.createList = async function(name, userId) {
+    const list = await listRepository.createList({
+        name,
+        ownerUserId: userId
+      });
+
     return list;
 }

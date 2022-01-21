@@ -5,7 +5,15 @@ exports.getAllLists = async function(userId) {
     return rows;
 }
 
-exports.getList = async function(listId) {
-    const rows = await db.select().table('lists').where('id', listId);
+exports.getList = async function(listId, userId) {
+    const rows = (await db.select().table('lists').where('id', listId).where('ownerUserId', userId))[0];
     return rows;
+}
+
+exports.createList = async function(newList) {
+    const createdListId = (await db('lists').insert(newList))[0];
+
+    newList.id = createdListId;
+
+    return newList;
 }

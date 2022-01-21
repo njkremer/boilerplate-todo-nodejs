@@ -5,7 +5,7 @@ exports.register = async function (req, res) {
     const { firstName, lastName, email, password } = req.body;
 
     if (!(email && password && firstName && lastName)) {
-      res.status(400).json({ message: 'All inputs are required' });
+      return res.status(400).json({ message: 'All inputs are required' });
     }
 
     const existingUser = await usersService.findUserByEmail(email);
@@ -16,7 +16,7 @@ exports.register = async function (req, res) {
 
     const registerResult = await usersService.register(firstName, lastName, email, password);
 
-    res.status(201).json({ data: registerResult });
+    return res.status(201).json({ data: registerResult });
   }
   catch (e) {
     console.log(e);
@@ -29,15 +29,15 @@ exports.login = async function (req, res) {
     const { email, password } = req.body;
 
     if (!(email && password)) {
-      res.status(400).send('All input is required');
+      return res.status(400).send('All input is required');
     }
 
     const user = await usersService.login(email, password);
     if (user) {
-      res.status(200).json({ data: user });
+      return res.status(200).json({ data: user });
     }
     else {
-      res.status(401).json({ message: 'Login Failed' });
+      return res.status(401).json({ message: 'Login Failed' });
     }
 
   }
