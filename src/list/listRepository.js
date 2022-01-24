@@ -17,3 +17,10 @@ exports.createList = async function(newList) {
 
     return newList;
 }
+
+exports.deleteList = async function(listId, userId) {
+    return (await db('lists')
+        .where('id', listId)
+        .where('ownerUserId', userId)
+        .del());
+}

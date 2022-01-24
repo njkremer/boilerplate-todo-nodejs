@@ -18,3 +18,8 @@ exports.createList = async function(name, userId) {
 
     return list;
 }
+
+exports.deleteList = async function(listId, userId) {
+    const wasSuccessful = (await listRepository.deleteList(listId, userId)) === 1;
+    return wasSuccessful;
+}
