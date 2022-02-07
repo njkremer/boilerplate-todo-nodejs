@@ -18,6 +18,16 @@ exports.createList = async function(newList) {
     return newList;
 }
 
+exports.updateList = async function(listId, userId, updatedList) {
+
+    await db('lists')
+        .where('id', listId)
+        .where('ownerUserId', userId)
+        .update(updatedList);
+
+    return updatedList;
+}
+
 exports.deleteList = async function(listId, userId) {
     return (await db('lists')
         .where('id', listId)

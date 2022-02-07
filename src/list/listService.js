@@ -10,6 +10,18 @@ exports.getList = async function(listId, userId) {
     return list;
 }
 
+exports.updateList = async function(listId, name, userId) {
+    const list = await listRepository.updateList(listId, userId, {
+        name
+      });
+
+    return {
+        ...list,
+        listId,
+        ownerUserId: userId
+    };
+}
+
 exports.createList = async function(name, userId) {
     const list = await listRepository.createList({
         name,

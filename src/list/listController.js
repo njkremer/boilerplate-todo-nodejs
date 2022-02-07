@@ -43,6 +43,20 @@ exports.createList = async function (req, res) {
     return res.status(200).json({data: newList})
 }
 
+exports.updateList = async function (req, res) {
+    const { name } = req.body;
+    const { listId } = req.params;
+    const { id: userId } = req.user;
+
+    if (!name) {
+      return res.status(400).send('List name is required');
+    }
+
+    const newList = (await listService.updateList(listId, name, userId));
+
+    return res.status(200).json({data: newList})
+}
+
 exports.deleteList = async function (req, res) {
     const { listId } = req.params;
     const { id: userId } = req.user;
