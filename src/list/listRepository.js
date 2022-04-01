@@ -19,20 +19,17 @@ exports.createList = async function(newList) {
 }
 
 exports.updateList = async function(listId, userId, updatedList) {
-
-    await db('lists')
+    return (await db('lists')
         .where('id', listId)
         .where('ownerUserId', userId)
-        .update(updatedList);
-
-    return updatedList;
+        .update(updatedList) === 1);
 }
 
 exports.deleteList = async function(listId, userId) {
     return (await db('lists')
         .where('id', listId)
         .where('ownerUserId', userId)
-        .del());
+        .del()) === 1;
 }
 
 exports.doesListExistForUser = async function(listId, userId) {

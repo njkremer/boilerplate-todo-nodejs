@@ -11,15 +11,16 @@ exports.getList = async function(listId, userId) {
 }
 
 exports.updateList = async function(listId, name, userId) {
-    const list = await listRepository.updateList(listId, userId, {
-        name
-      });
-
-    return {
-        ...list,
-        listId,
-        ownerUserId: userId
-    };
+    const updatedList = { name };
+    const wasSuccessful = await listRepository.updateList(listId, userId, updatedList);
+    if (wasSuccessful) {
+        return {
+            ...updatedList,
+            listId,
+            ownerUserId: userId
+        };
+    }
+    return null;
 }
 
 exports.createList = async function(name, userId) {
@@ -32,7 +33,7 @@ exports.createList = async function(name, userId) {
 }
 
 exports.deleteList = async function(listId, userId) {
-    const wasSuccessful = (await listRepository.deleteList(listId, userId)) === 1;
+    const wasSuccessful = await listRepository.deleteList(listId, userId);
     return wasSuccessful;
 }
 
