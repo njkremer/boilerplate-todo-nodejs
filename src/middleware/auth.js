@@ -34,10 +34,7 @@ const verifyToken = async (req, res, next) => {
     }
 
   } catch (err) {
-    const isJwtError = err.name === 'JsonWebTokenError' ||
-                       err.name === 'NotBeforeError' ||
-                       err.name === 'TokenExpiredError';
-    if (isJwtError) {
+    if (err instanceof jwt.JsonWebTokenError) {
       return res.status(401).send(`Authorization is required`);
     }
     return res.status(500).send(`An unexpected error occured: ${err.message}`);
