@@ -6,8 +6,9 @@ const usersRepository = require('./usersRepository');
 
 exports.findUserById = async function (id) {
   const user = await usersRepository.findUserById(id);
-
-  delete user.password;
+  if (user) {
+    delete user.password;
+  }
 
   return user;
 }

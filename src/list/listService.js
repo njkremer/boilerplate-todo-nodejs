@@ -35,3 +35,7 @@ exports.deleteList = async function(listId, userId) {
     const wasSuccessful = (await listRepository.deleteList(listId, userId)) === 1;
     return wasSuccessful;
 }
+
+exports.doesUserHaveAccessToList = async function(listId, userId) {
+    return await listRepository.doesListExistForUser(listId, userId);
+}
