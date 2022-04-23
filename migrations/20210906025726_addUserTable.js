@@ -7,8 +7,8 @@ exports.up = function(knex) {
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               email TEXT NOT NULL UNIQUE,
               password TEXT NOT NULL,
-              firstName TEXT NOT NULL,
-              lastName TEXT NOT NULL
+              first_name TEXT NOT NULL,
+              last_name TEXT NOT NULL
           )
         `)
     ]);

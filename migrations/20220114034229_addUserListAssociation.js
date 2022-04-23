@@ -3,7 +3,7 @@ exports.up = function(knex) {
   return Promise.all([
       knex.raw(`
         ALTER TABLE lists
-        ADD COLUMN ownerUserId INTEGER REFERENCES users(id)
+        ADD COLUMN owner_user_id INTEGER REFERENCES users(id)
       `)
   ]);
 };

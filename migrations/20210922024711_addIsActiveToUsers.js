@@ -3,7 +3,7 @@ exports.up = function(knex) {
   return Promise.all([
       knex.raw(`
         ALTER TABLE users
-        ADD COLUMN isActive BIT DEFAULT 1
+        ADD COLUMN is_active BIT DEFAULT 1
       `)
   ]);
 };
@@ -19,13 +19,13 @@ exports.down = function(knex) {
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 email TEXT NOT NULL UNIQUE,
                 password TEXT NOT NULL,
-                firstName TEXT NOT NULL,
-                lastName TEXT NOT NULL
+                first_name TEXT NOT NULL,
+                last_name TEXT NOT NULL
             );
           `,
           `
             INSERT INTO users_old
-            SELECT id, email, password, firstName, lastName FROM users;
+            SELECT id, email, password, first_name, last_name FROM users;
           `,
           `
             DROP TABLE users;
