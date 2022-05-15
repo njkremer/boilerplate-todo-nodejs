@@ -7,7 +7,9 @@ exports.up = function(knex) {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             description TEXT NOT NULL,
             note TEXT,
-            due_date TEXT
+            due_date TEXT,
+            list_id INTEGER,
+            FOREIGN KEY(list_id) REFERENCES lists(id)
         )
       `)
   ]);
