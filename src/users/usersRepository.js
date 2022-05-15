@@ -1,12 +1,12 @@
 const db = require('../database');
 
 exports.findUserById = async function(id, isActive = true) {
-  const user = await db('users').where({ id, is_active: isActive })[0];
+  const user = (await db('users').where({ id, is_active: isActive }))[0];
   return [user].map(mapUserFromDb)[0];
 }
 
 exports.findUserByEmail = async function(email, isActive = true) {
-  const user = await db('users').where({ email, is_active: isActive })[0];
+  const user = (await db('users').where({ email, is_active: isActive }))[0];
   return [user].map(mapUserFromDb)[0];
 }
 

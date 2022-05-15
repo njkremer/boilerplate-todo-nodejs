@@ -11,7 +11,7 @@ exports.findUserById = async function (id) {
 }
 
 exports.findUserByEmail = async function (email) {
-  const user = await usersRepository.findUserByEmail(email);
+  const user = await usersRepository.findUserByEmail(email.toLowerCase());
 
   return cleanUser(user);
 }
@@ -27,17 +27,17 @@ exports.register = async function (firstName, lastName, email, password) {
     isActive: true
   });
 
-  user.token = createJwt(user.id, email);
+  user.token = createJwt(user.id, email.toLowerCase());
 
   return cleanUser(user);
 }
 
 exports.login = async function (email, password) {
 
-  const user = await usersRepository.findUserByEmail(email);
+  const user = await usersRepository.findUserByEmail(email.toLowerCase());
 
   if (user && await bcrypt.compare(password, user.password)) {
-    user.token = createJwt(user.id, email);
+    user.token = createJwt(user.id, email.toLowerCase());
 
     return cleanUser(user);
   }
@@ -47,6 +47,7 @@ const cleanUser = (user) => {
   if (user) {
     delete user.password;
   }
+  return user;
 }
 
 const createJwt = (userId, email) => {
