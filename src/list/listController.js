@@ -59,12 +59,12 @@ exports.updateList = async function (req, res) {
       throw new ToDoListError(ToDoErrorTypes.LIST_NAME_REQUIRED);
     }
 
-    const newList = (await listService.updateList(listId, name, userId));
-    if (!!newList === false) {
+    const updatedList = (await listService.updateList(listId, name, userId));
+    if (!!updatedList === false) {
       throw new ToDoListError(ToDoErrorTypes.LIST_NOT_FOUND);
     }
 
-    return res.status(200).json({data: newList})
+    return res.status(200).json({data: updatedList})
   }
   catch (e) {
     return ToDoListError.processError(e, res);

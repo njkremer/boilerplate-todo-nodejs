@@ -16,20 +16,24 @@ exports.createListItem = async function(description, note, dueDate, listId) {
     return item;
 }
 
-exports.updateList = async function(listId, name, userId) {
-    const updatedList = { name };
-    const wasSuccessful = await listRepository.updateList(listId, userId, updatedList);
+exports.updateListItem = async function(itemId, description, note, dueDate, listId) {
+    const updatedListItem = {
+        description,
+        note,
+        dueDate
+    };
+    const wasSuccessful = await listItemRepository.updateListItem(itemId, listId, updatedListItem);
     if (wasSuccessful) {
         return {
-            ...updatedList,
+            ...updatedListItem,
             listId,
-            ownerUserId: userId
+            id: itemId
         };
     }
     return null;
 }
 
-exports.deleteList = async function(listId, userId) {
-    const wasSuccessful = await listRepository.deleteList(listId, userId);
+exports.deleteListItem = async function(listId, itemId) {
+    const wasSuccessful = await listItemRepository.deleteListItem(listId, itemId);
     return wasSuccessful;
 }

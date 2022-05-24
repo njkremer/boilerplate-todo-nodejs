@@ -31,39 +31,37 @@ exports.createListItem = async function (req, res) {
   }
 }
 
-exports.updateList = async function (req, res) {
+exports.updateListItem = async function (req, res) {
   try {
-    const { name } = req.body;
-    const { listId } = req.params;
-    const { id: userId } = req.user;
+    const { description, note, dueDate } = req.body;
+    const { listId, itemId } = req.params;
 
-    if (!name) {
-      throw new ToDoListError(ToDoErrorTypes.LIST_NAME_REQUIRED);
+    if (!description) {
+      throw new ToDoListError(ToDoErrorTypes.LIST_ITEM_DESCRIPTION_REQUIRED);
     }
 
-    const newList = (await listService.updateList(listId, name, userId));
-    if (!!newList === false) {
-      throw new ToDoListError(ToDoErrorTypes.LIST_NOT_FOUND);
+    const updatedListItem = (await listItemService.updateListItem(itemId, description, note, dueDate, listId));
+    if (!!updatedListItem === false) {
+      throw new ToDoListError(ToDoErrorTypes.LIST_ITEM_NOT_FOUND);
     }
 
-    return res.status(200).json({data: newList})
+    return res.status(200).json({data: updatedListItem})
   }
   catch (e) {
     return ToDoListError.processError(e, res);
   }
 }
 
-exports.deleteList = async function (req, res) {
+exports.deleteListItem = async function (req, res) {
   try {
-    const { listId } = req.params;
-    const { id: userId } = req.user;
+    const { listId, itemId } = req.params;
 
-    const wasSuccessful = await listService.deleteList(listId, userId);
+    const wasSuccessful = await listItemService.deleteListItem(listId, itemId);
     if (wasSuccessful) {
-      return res.status(200).json({ message: `Successfully deleted list with id ${listId}` });
+      return res.status(200).json({ message: `Successfully deleted list item with id ${itemId} for list with id ${listId}` });
     }
     else {
-      throw new ToDoListError(ToDoErrorTypes.LIST_NOT_FOUND);
+      throw new ToDoListError(ToDoErrorTypes.LIST_ITEM_NOT_FOUND);
     }
   }
   catch (e) {

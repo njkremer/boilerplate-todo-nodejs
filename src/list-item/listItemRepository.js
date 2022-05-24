@@ -16,21 +16,21 @@ exports.createListItem = async (newItem) => {
   return newItem;
 }
 
-exports.updateList = async (listId, userId, updatedList) => {
-  const dbRecord = [updatedList].map(mapListToDb)[0]
+exports.updateListItem = async (itemId, listId, updatedListItem) => {
+  const dbRecord = [updatedListItem].map(mapListItemToDb)[0]
 
-  const wasSuccessful = await db('lists')
-    .where('id', listId)
-    .where('owner_user_id', userId)
+  const wasSuccessful = await db('list_items')
+    .where('id', itemId)
+    .where('list_id', listId)
     .update(dbRecord) === 1;
 
   return wasSuccessful;
 }
 
-exports.deleteList = async (listId, userId) => {
-  const wasSuccessful = await db('lists')
-    .where('id', listId)
-    .where('owner_user_id', userId)
+exports.deleteListItem = async (listId, itemId) => {
+  const wasSuccessful = await db('list_items')
+    .where('id', itemId)
+    .where('list_id', listId)
     .del() === 1;
 
   return wasSuccessful;

@@ -7,8 +7,7 @@ const router = express.Router({mergeParams: true});
 
 router.get('/', apiKey, auth, listItemController.getAllItemsForList);
 router.post('/create', apiKey, auth, listItemController.createListItem);
-// router.post('/:listId', apiKey, auth, listController.updateList);
-// router.delete('/:listId', apiKey, auth, listController.deleteList);
-// router.get('/:listId', apiKey, auth, listController.getList);
+router.post('/:itemId', apiKey, auth, listItemController.updateListItem);
+router.delete('/:itemId', apiKey, auth, listItemController.deleteListItem);
 
 module.exports = router;
