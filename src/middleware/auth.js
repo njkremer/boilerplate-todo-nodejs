@@ -29,7 +29,12 @@ const verifyToken = async (req, res, next) => {
     if (listId) {
       const userHasAccessToList = await listService.doesUserHaveAccessToList(listId, user.id);
       if (userHasAccessToList === false) {
-        return res.status(403).send("You do not have access to the requested resource");
+
+        // Returning 404 instead of a 403 here because for all intents and purposes, the list doesn't
+        // exist. It may or may not ACTUALLY exist, but to the user, if they don't own it, it doesn't
+        // exist. See https://apihandyman.io/hands-off-that-resource-http-status-code-401-vs-403-vs-404/
+        // for more detail
+        return res.status(404).send("The requested resource does not exist");
       }
     }
 
