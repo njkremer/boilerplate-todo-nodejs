@@ -2,14 +2,14 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Swagger Petstore",
-    "description": "A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification",
-    "termsOfService": "http://swagger.io/terms/",
+    "title": "Swagger TODO List API",
+    "description": "An API for basic TODO list managment",
+    "termsOfService": "",
     "contact": {
-      "name": "Swagger API Team"
+      "name": ""
     },
     "license": {
-      "name": "MIT"
+      "name": ""
     }
   },
   "host": "localhost:4000",
@@ -24,7 +24,205 @@
     "application/json"
   ],
   "paths": {
+    "/users/register": {
+      "post": {
+        "summary": "Create a new user in the system",
+        "parameters": [{
+          "in": "header",
+          "name": "Api-Key",
+          "type": "string",
+          "required": true
+        },{
+          "name": "User",
+          "in": "body",
+          "description": "User to add to the system",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/SignUpUser"
+          }
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created user response",
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
+            }
+          },
+          "400": {
+            "description": "All inputs are required",
+            "schema": {
+              "$ref": "#/definitions/ToDoListError"
+            }
+          },
+          "409": {
+            "description": "User Already Exist",
+            "schema": {
+              "$ref": "#/definitions/ToDoListError"
+            }
+          },
+          "500": {
+            "description": "Unknown Error",
+            "schema": {
+              "$ref": "#/definitions/ToDoListError"
+            }
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "get": {
+        "summary": "Returns all pets from the system that the user has access to",
+        "parameters": [{
+          "in": "header",
+          "name": "Api-Key",
+          "type": "string",
+          "required": true
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of pets.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/list/create": {
+      "get": {
+        "summary": "Returns all pets from the system that the user has access to",
+        "parameters": [{
+          "in": "header",
+          "name": "Api-Key",
+          "type": "string",
+          "required": true
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of pets.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            }
+          }
+        }
+      }
+    },
     "/list/all": {
+      "get": {
+        "summary": "Returns all pets from the system that the user has access to",
+        "parameters": [{
+          "in": "header",
+          "name": "Api-Key",
+          "type": "string",
+          "required": true
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of pets.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/list/{listId}": {
+      "get": {
+        "summary": "Returns all pets from the system that the user has access to",
+        "parameters": [{
+          "in": "header",
+          "name": "Api-Key",
+          "type": "string",
+          "required": true
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of pets.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/list/{listId}/items": {
+      "get": {
+        "summary": "Returns all pets from the system that the user has access to",
+        "parameters": [{
+          "in": "header",
+          "name": "Api-Key",
+          "type": "string",
+          "required": true
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of pets.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/list/{listId}/items/create": {
+      "get": {
+        "summary": "Returns all pets from the system that the user has access to",
+        "parameters": [{
+          "in": "header",
+          "name": "Api-Key",
+          "type": "string",
+          "required": true
+        }],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of pets.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/list/{listId}/items/{itemId}": {
       "get": {
         "summary": "Returns all pets from the system that the user has access to",
         "parameters": [{
@@ -67,6 +265,77 @@
         },
         "tag": {
           "type": "string"
+        }
+      }
+    },
+    "BasicUser": {
+      "type": "object",
+      "required": [
+        "email",
+        "firstName",
+        "lastName"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        }
+      }
+    },
+    "SignUpUser": {
+      "allOf": [{
+        "$ref": "#/definitions/BasicUser"
+      }, {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          }
+        }
+      }]
+    },
+    "FullUser": {
+      "allOf": [{
+        "$ref": "#/definitions/BasicUser"
+      },{
+        "type": "object",
+        "properties": {
+          "isActive": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "token": {
+            "type": "string"
+          }
+        }
+      }]
+    },
+    "UserResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/FullUser"
+        }
+      }
+    },
+    "ToDoListError": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "errorNumber": {
+          "type": "string"
+        },
+        "httpStatus": {
+          "type": "integer"
         }
       }
     }
