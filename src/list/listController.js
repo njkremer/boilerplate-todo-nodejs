@@ -42,7 +42,7 @@ exports.createList = async function (req, res) {
 
     const newList = (await listService.createList(name, userId));
 
-    return res.status(200).json({data: newList})
+    return res.status(201).json({data: newList})
   }
   catch (e) {
     return ToDoListError.processError(e, res);
