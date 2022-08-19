@@ -64,7 +64,7 @@
             }
           },
           "500": {
-            "description": "Unknown Error",
+            "description": "Unexpected Error",
             "schema": {
               "$ref": "#/definitions/ToDoListError"
             }
@@ -73,25 +73,48 @@
       }
     },
     "/users/login": {
-      "get": {
-        "summary": "Returns all pets from the system that the user has access to",
+      "post": {
+        "summary": "Returns a JWT for the logged in user",
         "parameters": [{
           "in": "header",
           "name": "Api-Key",
           "type": "string",
           "required": true
+        }, {
+          "name": "Login",
+          "in": "body",
+          "description": "Login information for the user",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Login"
+          }
         }],
         "produces": [
           "application/json"
         ],
         "responses": {
-          "200": {
-            "description": "A list of pets.",
+          "201": {
+            "description": "Created user response",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
-              }
+              "$ref": "#/definitions/UserResponse"
+            }
+          },
+          "400": {
+            "description": "All inputs are required",
+            "schema": {
+              "$ref": "#/definitions/ToDoListError"
+            }
+          },
+          "401": {
+            "description": "Login failed",
+            "schema": {
+              "$ref": "#/definitions/ToDoListError"
+            }
+          },
+          "500": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ToDoListError"
             }
           }
         }
@@ -249,25 +272,6 @@
     }
   },
   "definitions": {
-    "Pet": {
-      "type": "object",
-      "required": [
-        "id",
-        "name"
-      ],
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        },
-        "tag": {
-          "type": "string"
-        }
-      }
-    },
     "BasicUser": {
       "type": "object",
       "required": [
@@ -316,6 +320,21 @@
           }
         }
       }]
+    },
+    "Login": {
+      "type": "object",
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
     },
     "UserResponse": {
       "type": "object",
