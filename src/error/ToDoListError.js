@@ -15,16 +15,20 @@ class ToDoListError extends Error {
         .json(errorResponse);
     }
     else {
-      return res.status(500).send(`An unexpected error occured: ${err.message}`);
+      return res
+        .status(errorTypes.UNEXPECTED_ERROR.httpStatus)
+        .json(errorTypes.UNEXPECTED_ERROR);
     }
   }
 }
 
 const errorTypes = {
-  LIST_NOT_FOUND: { code: 1000, httpStatus: 404, message: 'No List Found'},
-  LIST_NAME_REQUIRED: { code: 1001, httpStatus: 400, message: 'List name is required'},
-  LIST_ITEM_DESCRIPTION_REQUIRED: { code: 1002, httpStatus: 400, message: 'List item description is required'},
-  LIST_ITEM_NOT_FOUND: { code: 1003, httpStatus: 404, message: 'No List Item Found'}
+  UNAUTHORIZED: { code: 1000, httpStatus: 401, message: 'Authorization is required'},
+  UNEXPECTED_ERROR: { code: 1001, httpStatus: 500, message: 'An unexpected error occured'},
+  LIST_NOT_FOUND: { code: 1002, httpStatus: 404, message: 'No List Found'},
+  LIST_NAME_REQUIRED: { code: 1003, httpStatus: 400, message: 'List name is required'},
+  LIST_ITEM_DESCRIPTION_REQUIRED: { code: 1004, httpStatus: 400, message: 'List item description is required'},
+  LIST_ITEM_NOT_FOUND: { code: 1005, httpStatus: 404, message: 'No List Item Found'}
 }
 
 exports.ToDoListError = ToDoListError;
