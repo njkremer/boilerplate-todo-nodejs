@@ -364,74 +364,111 @@
     },
     "/list/{listId}/items": {
       "get": {
-        "summary": "Returns all pets from the system that the user has access to",
+        "summary": "Returns all items for list",
         "parameters": [{
           "in": "header",
           "name": "Api-Key",
           "type": "string",
           "required": true
+        }, {
+          "in": "header",
+          "name": "Authorization",
+          "description": "Bearer JWT for the logged in user",
+          "type": "string",
+          "required": true
+        }, {
+          "name": "listId",
+          "in": "path",
+          "description": "List id",
+          "required": true,
+          "type": "integer"
         }],
         "produces": [
           "application/json"
         ],
         "responses": {
           "200": {
-            "description": "A list of pets.",
+            "description": "A list item response",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
-              }
+              "$ref": "#/definitions/AllListItemsResponse"
+            }
+          },
+          "401": {
+            "description": "Auth has expired",
+            "schema": {
+              "$ref": "#/definitions/ToDoListError"
+            }
+          },
+          "404": {
+            "description": "List can't be found or User doesn't have access to the specified list",
+            "schema": {
+              "$ref": "#/definitions/ToDoListError"
             }
           }
         }
       }
     },
     "/list/{listId}/items/create": {
-      "get": {
-        "summary": "Returns all pets from the system that the user has access to",
+      "post": {
+        "summary": "Creates a list item for the logged in user on the specified list with the supplied list item details",
         "parameters": [{
           "in": "header",
           "name": "Api-Key",
           "type": "string",
           "required": true
-        }],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of pets.",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
-              }
-            }
+        }, {
+          "in": "header",
+          "name": "Authorization",
+          "description": "Bearer JWT for the logged in user",
+          "type": "string",
+          "required": true
+        }, {
+          "name": "listId",
+          "in": "path",
+          "description": "List id",
+          "required": true,
+          "type": "integer"
+        }, {
+          "name": "ListItem",
+          "in": "body",
+          "description": "List details",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/BasicListItem"
           }
-        }
-      }
-    },
-    "/list/{listId}/items/{itemId}": {
-      "get": {
-        "summary": "Returns all pets from the system that the user has access to",
-        "parameters": [{
-          "in": "header",
-          "name": "Api-Key",
-          "type": "string",
-          "required": true
         }],
         "produces": [
           "application/json"
         ],
         "responses": {
-          "200": {
-            "description": "A list of pets.",
+          "201": {
+            "description": "Created list item response",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
-              }
+              "$ref": "#/definitions/ListItemResponse"
+            }
+          },
+          "400": {
+            "description": "All inputs are required",
+            "schema": {
+              "$ref": "#/definitions/ToDoListError"
+            }
+          },
+          "401": {
+            "description": "Auth has expired",
+            "schema": {
+              "$ref": "#/definitions/ToDoListError"
+            }
+          },
+          "404": {
+            "description": "List can't be found or User doesn't have access to the specified list",
+            "schema": {
+              "$ref": "#/definitions/ToDoListError"
+            }
+          },
+          "500": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ToDoListError"
             }
           }
         }
@@ -529,6 +566,39 @@
         }
       }]
     },
+    "BasicListItem": {
+      "type": "object",
+      "required": [
+        "description"
+      ],
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "dueDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "FullListItem": {
+      "allOf": [{
+        "$ref": "#/definitions/BasicListItem"
+      },{
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "listId": {
+            "type": "integer"
+          }
+        }
+      }]
+    },
     "UserResponse": {
       "type": "object",
       "properties": {
@@ -556,6 +626,25 @@
         }
       }
     },
+    "ListItemResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/FullListItem"
+        }
+      }
+    },
+    "AllListItemsResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FullListItem"
+          }
+        }
+      }
+    },
     "MessageResponse": {
       "type": "object",
       "properties": {
@@ -572,9 +661,6 @@
         },
         "errorNumber": {
           "type": "string"
-        },
-        "httpStatus": {
-          "type": "integer"
         }
       }
     }
