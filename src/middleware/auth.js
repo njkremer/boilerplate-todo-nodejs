@@ -1,3 +1,4 @@
+const { ToDoListError, ToDoErrorTypes } = require('../error/ToDoListError');
 const jwt = require("jsonwebtoken");
 const usersService = require('../users/usersService');
 const listService = require('../list/listService');
@@ -5,22 +6,22 @@ const listService = require('../list/listService');
 const { JWT_TOKEN_KEY } = require('../config');
 
 const verifyToken = async (req, res, next) => {
-
-  const authHeader = req.headers.authorization;
-  const splitAuth = authHeader?.split(' ');
-  const hasToken = splitAuth?.length === 2 && splitAuth[0] == "Bearer";
-
-  if (hasToken === false) {
-    return res.status(401).send("Authorization is required");
-  }
-
   try {
+
+    const authHeader = req.headers.authorization;
+    const splitAuth = authHeader?.split(' ');
+    const hasToken = splitAuth?.length === 2 && splitAuth[0] == "Bearer";
+
+    if (hasToken === false) {
+      throw new ToDoListError(ToDoErrorTypes.UNAUTHORIZED);
+    }
+
     const token = splitAuth[1];
     const decoded = jwt.verify(token, JWT_TOKEN_KEY);
 
     const user = await usersService.findUserById(decoded.user_id);
     if (!!user === false) {
-      return res.status(401).send("Authorization is required");
+      throw new ToDoListError(ToDoErrorTypes.UNAUTHORIZED);
     }
 
     req.user = user;
@@ -34,15 +35,15 @@ const verifyToken = async (req, res, next) => {
         // exist. It may or may not ACTUALLY exist, but to the user, if they don't own it, it doesn't
         // exist. See https://apihandyman.io/hands-off-that-resource-http-status-code-401-vs-403-vs-404/
         // for more detail
-        return res.status(404).send("The requested resource does not exist");
+        throw new ToDoListError(ToDoErrorTypes.LIST_NOT_FOUND);
       }
     }
 
   } catch (err) {
     if (err instanceof jwt.JsonWebTokenError) {
-      return res.status(401).send(`Authorization is required`);
+      return ToDoListError.processError(new ToDoListError(ToDoErrorTypes.UNAUTHORIZED), res);
     }
-    return res.status(500).send(`An unexpected error occured: ${err.message}`);
+    return ToDoListError.processError(err, res);
   }
   return next();
 };
