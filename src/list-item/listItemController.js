@@ -22,7 +22,7 @@ exports.createListItem = async function (req, res) {
       throw new ToDoListError(ToDoErrorTypes.LIST_ITEM_DESCRIPTION_REQUIRED);
     }
 
-    const newItem = (await listItemService.createListItem(description, note, dueDate, listId));
+    const newItem = (await listItemService.createListItem(description, note, dueDate, +listId));
 
     return res.status(200).json({data: newItem})
   }
