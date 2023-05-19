@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/serverstart.js",
+    "build": "node src/build.js",
     "dev": "nodemon src/serverstart.js",
     "test:ci": "jest --watchAll=false --reporters=jest-junit --passWithNoTests",
     "test": "jest --watchAll=false --verbose --passWithNoTests",
